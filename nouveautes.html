@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Nouveautés</h1>
+<div class="card">
+  <table class="table">
+    <thead><tr><th>Titre</th><th>Contenu</th><th>Date-heure</th></tr></thead>
+    <tbody>
+      {% for n in items %}
+        <tr>
+          <td><strong>{{ n.titre }}</strong></td>
+          <td>{{ n.contenu }}</td>
+          <td>{{ n.date_publication.strftime("%Y-%m-%d %H:%M") }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">Aucune nouveauté.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

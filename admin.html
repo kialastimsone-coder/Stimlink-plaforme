@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+{% if login_only %}
+<h1>Admin - Connexion</h1>
+<form class="card" method="post">
+  <div class="form-group"><label class="required">Username</label><input name="username" required></div>
+  <div class="form-group"><label class="required">Mot de passe</label><input type="password" name="password" required></div>
+  <button class="btn">Se connecter</button>
+</form>
+{% else %}
+<h1>Admin</h1>
+<a class="btn" href="{{ url_for('admin_director_login') }}"
+   style="margin-top:8px; text-decoration:none; margin: 20px 0; padding: 0 10px">Admin Director</a>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>Opérations</h2>
+    <form id="creditDebitForm" method="post">
+      <input type="hidden" name="action" value="credit_debit">
+      <div class="form-group"><label class="required">N° Compte</label><input name="numero_compte" required></div>
+      <div class="form-group">
+        <label class="required">Type</label>
+        <select name="type_tx" required>
+          <option value="credit">Crédit</option>
+          <option value="debit">Débit</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="required">Montant (CDF)</label><input name="montant" required></div>
+      <div class="form-group"><label><input type="checkbox" name="confirm">Confirmer l’opération</label></div>
+      <button class="btn">Valider</button>
+    </form>
+    <hr>
+    <h3>Envoyer un message</h3>
+    <form method="post">
+      <input type="hidden" name="action" value="message">
+      <div class="form-group"><label class="required">N° Compte</label><input name="numero_compte" required></div>
+      <div class="form-group"><label class="required">Message</label><input name="message" required></div>
+      <button class="btn">Envoyer</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Dashboard</h2>
+    <p><strong>N°Administrateur :</strong> STL/quantynic@2024-2025_epargne/</p>
+    <p><strong>Nombre d'utilisateurs :</strong> {{ stats.nb_users }}</p>
+    <p><strong>Messages reçus :</strong> {{ stats.nb_messages }}</p>
+    <p><strong>Montant total :</strong> {{ "{:,.1f}".format(stats.total_solde or 0) }} CDF</p>
+  </div>
+</div>
+
+<div class="grid grid-1" style="margin-top:16px">
+  <div class="card">
+    <h3>Journal des opérations</h3>
+    <table class="table-logs">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Statut</th>
+          <th>Date-heure</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for n in notifs %}
+          <tr>
+            <td>{{ n.username }}</td>
+            <td>{{ n.statut }}</td>
+            <td>{{ n.to_kinshasa.strftime("%d-%m-%Y %H:%M") }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="3">Aucune entrée</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Messages de contact</h3>
+    <table class="table-contacts">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in contacts %}
+          <tr>
+            <td>{{ c.nom }} {{ c.post_nom }} {{ c.prenom }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.telephone }}</td>
+            <td>{{ c.message }}</td>
+            <td>{{ c.created_at.strftime("%d-%m-%Y %H:%M") }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5">Aucun message.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

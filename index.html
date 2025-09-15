@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-1">
+  <div class="card">
+    <h1><b style="font-family: Brush Script MT, cursive;font-size: 55px;color: #FCC46E;"
+    >S</b>timLink - Transformez chaque sous en richesse</h1>
+    <h4>L’épargne, une décision essentielle aujourd’hui plus que jamais</h4>
+    <p>Dans un monde en constante évolution, marqué par des incertitudes économiques et des imprévus,
+      l’épargne n’est plus une option, mais une nécessité. Chez StimLink, nous croyons fermement que mettre de côté
+      une partie de ses revenus est la première étape vers une vie financièrement stable et un avenir prospère.
+      Épargner, c’est se donner la possibilité de faire face aux imprévus, d’investir dans ses projets et de
+      construire progressivement une autonomie économique durable.</p>
+    <h4>Ne pas attendre demain pour commencer à épargner</h4>
+    <p>Remettre à demain ce que l’on peut commencer aujourd’hui est souvent l’un des plus grands freins à la réussite
+      financière. À StimLink, nous encourageons chacun à prendre la décision d’épargner dès maintenant, car chaque jour
+      compte. Commencer aujourd’hui, c’est profiter plus tôt des bénéfices que procure une bonne gestion financière.
+      Plus tôt vous commencez, plus grande sera votre capacité à financer vos ambitions.</p>
+    <h4>L’épargne, un outil puissant pour l’autonomie et la croissance</h4>
+    <p>StimLink vous accompagne dans le développement de votre autonomie économique. En constituant une réserve
+      financière, vous vous donnez les moyens de faire grandir votre activité, de soutenir vos proches en cas de
+      besoin ou encore d’investir dans des opportunités sans avoir recours à l’endettement. L’épargne renforce votre
+      sécurité financière tout en vous rapprochant de vos objectifs personnels et professionnels.</p>
+    <h4>Votre fidélité, un levier pour l’expansion de vos projets</h4>
+    <p>Chez StimLink, nous valorisons nos clients fidèles. Votre engagement à épargner avec nous n’est pas seulement
+      bénéfique pour vous, il nous permet également d’innover, d’étendre nos services et de mieux vous accompagner.
+      Votre fidélité est la pierre angulaire de notre mission : transformer chaque sou en richesse, non seulement pour
+      vous, mais pour toute la communauté économique que nous bâtissons ensemble.</p>
+    <h4>Une communauté d’épargnante tournée vers l’avenir</h4>
+    <p>StimLink, c’est bien plus qu’un service : c’est une communauté d’hommes et de femmes engagés à faire fructifier
+      leurs ressources. En rejoignant notre entreprise, vous intégrez un réseau dynamique où chaque membre grandit avec
+      les autres. Ensemble, nous construisons un écosystème de confiance, d’entraide et de réussite collective.</p>
+  </div>
+  <div class="card">
+    <h2>Plateforme d’épargne</h2>
+    <h3>Mission</h3>
+    <p>Permettre l'accès à des services financiers simples, transparents et responsables pour favoriser la sécurité et
+      la croissance financière de nos clients.</p>
+    <h3>Vision</h3>
+    <p>Devenir un partenaire financier de confiance pour chaque foyer souhaitant épargner et investir dans ses ambitions.</p>
+    <div class="flex">
+      <a class="btn" href="{{ url_for('signup') }} " style="text-decoration:none">Commencer</a>
+      <a class="btn secondary" href="{{ url_for('services') }}" style="text-decoration:none">Voir nos services</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

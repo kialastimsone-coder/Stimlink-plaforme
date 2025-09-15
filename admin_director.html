@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+{% if login_only %}
+<h1>Admin Director - Connexion</h1>
+<form class="card" method="post">
+  <div class="form-group"><label class="required">Username</label><input name="username" required></div>
+  <div class="form-group"><label class="required">Mot de passe</label><input type="password" name="password" required></div>
+  <button class="btn">Se connecter</button>
+</form>
+{% else %}
+<h1>Admin Director</h1>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>Ajouter une nouveauté</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="add_news">
+      <div class="form-group"><label class="required">Titre</label><input name="titre" required></div>
+      <div class="form-group"><label class="required">Contenu</label><textarea name="contenu" rows="4" required></textarea></div>
+      <button class="btn">Publier</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Réinitialiser un mot de passe utilisateur</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="reset_password">
+      <div class="form-group"><label class="required">Email ou Username</label><input name="identifier" required></div>
+      <button class="btn danger">Réinitialiser</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>Liste des nouveautés</h2>
+  <table class="table">
+    <thead><tr><th>Titre</th><th>Publié</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for n in news %}
+        <tr>
+          <td>{{ n.titre }}</td>
+          <td>{{ n.date_publication.strftime("%Y-%m-%d %H:%M") }}</td>
+          <td>
+            <form method="post" style="display:inline">
+              <input type="hidden" name="action" value="delete_news">
+              <input type="hidden" name="nid" value="{{ n.id }}">
+              <button class="btn danger" onclick="return confirm('Supprimer ?')">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">Aucune nouveauté.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}

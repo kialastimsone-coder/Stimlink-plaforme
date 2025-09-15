@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Services</h1>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>Service Épargne</h2>
+    <h3>Épargne : Avantages et bénéfices</h3>
+    <p>L’épargne chez StimLink repose sur des principes solides : sécurité, accessibilité et croissance. <br>
+      En choisissant de nous confier vos économies, vous bénéficiez d’un encadrement fiable et d’un système de
+      gestion rigoureux. Vos biens sont protégés, vos informations confidentielles et votre argent travaille pour vous.<br>
+      L’épargne n’est pas seulement un acte de prudence, c’est une stratégie intelligente pour protéger vos biens,
+      planifier vos projets et garantir votre avenir. <br>
+      Grâce à nos solutions adaptées, vous pouvez épargner à votre rythme tout en gardant la flexibilité dont vous avez
+      besoin.</p>
+
+    <div class="flex">
+      <a class="btn" href="{{ url_for('signup') }}" style="text-decoration:none">Créer un compte</a>
+      <a class="btn secondary" href="{{ url_for('login') }} " style="text-decoration:none">Se connecter</a>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Service Micro Crédit</h2>
+    <h3>Une aide pour avancer, une responsabilité à honorer</h3>
+    <p>Demander un micro crédit chez StimLink, c’est accéder à une aide ponctuelle bien pensée, destinée à soutenir un besoin
+      urgent ou un projet structurant. <br>
+      Que ce soit pour booster votre activité, faire face à un imprévu ou réaliser un rêve, notre service de crédit est
+      là pour vous accompagner. Toutefois, il est impératif de comprendre que tout crédit est un engagement. <br>
+      Payer avant le délai convenu vous permet non seulement de maintenir une bonne relation avec notre entreprise,
+      mais aussi de bénéficier de futurs avantages, tels qu’un accès plus rapide à d’autres crédits ou des taux
+      préférentiels. La discipline financière est la clé de la croissance durable.</p>
+
+    <a class="btn" href="{{ url_for('micro_credit') }}" style="text-decoration:none">En savoir plus</a>
+  </div>
+</div>
+{% endblock %}

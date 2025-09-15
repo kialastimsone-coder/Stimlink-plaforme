@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>A propos</h1>
+<div class="card">
+  <h4 style="color: #FCC46E !important; font-family:Brush Script MT, cursive; font-size: 30px">
+        Une plateforme
+        <span id="typed-text"></span>
+  </h4>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        new Typed("#typed-text", {
+          strings: ["Innovante", "À proximité", "Bâtisseuse", "Orientée résultats"],
+          typeSpeed: 85,       // vitesse d'écriture
+          backSpeed: 50,       // vitesse d'effacement
+          backDelay: 1500,     // pause avant suppression
+          loop: true,          // boucle infinie
+          showCursor: true,    // curseur visible
+          cursorChar: "|"      // caractère du curseur
+        });
+      });
+    </script>
+  <p>Nous sommes StimLink, une plateforme, dédiée à l’épargne, au micro crédit et au commerce.</p>
+  <p>Notre vision : rendre la liberté financière accessible à tous.</p>
+  <p>Nous mettons l’accent sur la sécurité, la transparence et la simplicité d’usage.</p>
+  <p>Avec StimLink, transformez chaque sou en richesse.</p>
+        <hr>
+  <p>Nous avons aidé des centaines de personnes à atteindre leurs objectifs, en leur fournissant un service de
+             qualité tout en restant rigoureux afin de garantir l'équilibre.</p>
+        <hr>
+  <p>Fondée en février 2024, avec un objectif : être partenaire fiable et proche des clients. <br>
+  Depuis février 2024 jusqu'à ce jour plus de 300 client(e)s nous ont fait confiance, et nous avons réalisé
+  près de 1000 enregistrement et un chiffre d'affaires approximatif de 8 400 000 CDF.</p>
+
+</div>
+
+{% endblock %}

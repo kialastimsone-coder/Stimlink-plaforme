@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-1">
+  <aside class="card sidebar">
+    <div class="profile">
+      {% if user.photo_profil %}
+        <img src="{{ url_for('static', filename=user.photo_profil) }}"
+             alt="Photo de profil" width="150">
+      {% else %}
+        <img src="{{ url_for('static', filename='uploads/profil.png') }}"
+             alt="Photo par défaut" width="150">
+      {% endif %}
+
+      <div>
+        <strong>{{ user.nom }} {{ user.post_nom }} {{ user.prenom }}</strong><br>
+        <small>Compte: {{ user.numero_compte }}</small>
+      </div>
+    </div>
+  </aside>
+  <main class="card">
+    <div class="card" style="text-align:center;">
+      <p style="font-weight:bold; font-size: 20px">Solde principal</p>
+      <h1 style="font-size:50px">{{ "{:,.1f}".format(user.solde) }} CDF</h1>
+    </div>
+    <h2>Notifications</h2>
+    <table class="table-notifs">
+      <thead>
+        <tr>
+          <th>Statut</th>
+          <th>Date-heure</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for n in notifs %}
+          <tr>
+            <td>{{ n.statut }}</td>
+            <td>{{ n.to_kinshasa.strftime("%d-%m-%Y | %H:%M |") }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="2">Aucune notification.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+  <div class="flex">
+    <a class="btn" href="{{ url_for('download_releve') }}" style="text-decoration:none">Télécharger le relevé</a>
+    <a class="btn secondary" href="{{ url_for('nouveautes') }}" style="text-decoration:none">Voir les nouveautés</a>
+  </div>
+</div>
+{% endblock %}

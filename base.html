@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>StimLink</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body class="{{ page }}">
+  <div id="loader">
+    <img src="{{ url_for('static', filename='LOGO OFFICIEL STIMLINK.png') }}" alt="StimLink" class="loader-logo">
+    <div class="spinner"></div>
+    <p>Chargement...</p>
+  </div>
+  <nav class="navbar">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='LOGO OFFICIEL STIMLINK.png') }}" width="50">
+    </div>
+    <a href="{{ url_for('index') }}">Accueil</a>
+    <a href="{{ url_for('services') }}">Services</a>
+    <a href="{{ url_for('politique') }}">Politique</a>
+    <a href="{{ url_for('nouveautes') }}">Nouveautés
+      {% if unread_news and unread_news>0 %}
+      <span class="badge">{{ unread_news }}</span>
+      {% endif %}
+    </a>
+    <a href="{{ url_for('a_propos')}}">A propos</a>
+    <a href="{{ url_for('contact')}}">Contact</a>
+    <div style="margin-left:auto" class="flex">
+      {% if session.get('user_id') %}
+        <a class="btn" href="{{ url_for('dashboard')}}" style="text-decoration:none;font-size:14px; color:white">Mon compte</a>
+        <a class="btn secondary" href="{{ url_for('logout')}}" style="text-decoration:none">Déconnexion</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login')}}" style="text-decoration:none;font-size:14px; color:white">Connexion</a>
+        <a class="btn" href="{{ url_for('signup')}}" style="text-decoration:none;font-size:14px; color:white">Créer un compte</a>
+      {% endif %}
+
+      <a class="btn" href="{{ url_for('admin_login')}}" style="text-decoration:none;font-size:14px; color:white">
+        <img src="{{ url_for('static', filename='user-gear.png') }}" width="15" height="15">
+      </a>
+      <button id="darkToggle" class="btn secondary" type="button">
+        <img src="{{ url_for('static', filename='brightness2.png') }}" width="15" height="15">
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="card" style="border-left:6px solid {% if category=='success' %}#22c55e{% elif category=='danger'
+          %}#ef4444{% elif category=='warning' %}#f59e0b{% else %}#3b82f6{% endif %};">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const loader = document.getElementById("loader");
+
+    // Simule un délai minimum (ex: 1s) pour éviter un clignotement trop rapide
+    setTimeout(() => {
+      loader.classList.add("hidden");
+    }, 1000); // <-- ajuste selon ton goût
+   });
+  </script>
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+</body>
+</html>
