@@ -11,10 +11,7 @@ class Config:
 
     # DATABASE: preferer DATABASE_URL (Postgres) sinon fallback SQLite local (dev)
     # Ex: postgresql+psycopg2://user:pass@host:5432/dbname
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "sqlite:///" + os.path.join(basedir, "dev.sqlite3")
-    )
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:Qvlzar1706%40@localhost:5432/Stimlink_online"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
