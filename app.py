@@ -3,6 +3,7 @@ import os, csv, io, random
 from decimal import Decimal
 from datetime import datetime, timedelta, timezone
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from reportlab.lib.pagesizes import A4
@@ -23,9 +24,11 @@ db.init_app(app)
 # Kinshasa is UTC+1
 KINSHASA_TZ = timezone(timedelta(hours=1))
 
+
 def now_utc():
     """Return timezone-aware UTC now."""
     return datetime.now(timezone.utc)
+
 
 def make_aware(dt):
     """
@@ -40,6 +43,7 @@ def make_aware(dt):
         return dt.replace(tzinfo=timezone.utc)
     return dt
 
+
 def to_kinshasa(dt):
     """Convert a datetime (naive or aware) to Kinshasa timezone and return an aware datetime."""
     a = make_aware(dt)
@@ -47,13 +51,16 @@ def to_kinshasa(dt):
         return None
     return a.astimezone(KINSHASA_TZ)
 
+
 # --- Utils ---
 def generate_account_number():
     digits = ''.join([str(random.randint(0,9)) for _ in range(9)])
     return f"STL-{digits[:3]}-{digits[3:6]}-{digits[6:9]}"
 
+
 def allowed_image(filename):
     return '.' in filename and filename.rsplit('.',1)[1].lower() in app.config["ALLOWED_IMAGE_EXT"]
+
 
 def ensure_monthly_fee(user: User):
     """
@@ -77,24 +84,29 @@ def ensure_monthly_fee(user: User):
             db.session.add(Notification(username=user.username, statut=f"Frais de compte : -{fee} {app.config.get('DEFAULT_CURRENCY','CDF')}", created_at=now_utc()))
             db.session.commit()
 
+
 def log_status(username, statut):
     db.session.add(Notification(username=username, statut=statut, created_at=now_utc()))
     db.session.commit()
+
 
 def require_user():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return None
 
+
 def require_admin():
     if "admin_id" not in session:
         return redirect(url_for("admin_login"))
     return None
 
+
 def require_admin_director():
     if "admin_director_id" not in session:
         return redirect(url_for("admin_director_login"))
     return None
+
 
 # --- CLI init (optionnel en dev) ---
 @app.cli.command("init-db")
@@ -103,18 +115,22 @@ def init_db():
         db.create_all()
         print("DB created")
 
+
 # --- Routes publiques ---
 @app.route("/")
 def index():
     return render_template("index.html", page="accueil")
 
+
 @app.route("/services")
 def services():
     return render_template("services.html", page="services")
 
+
 @app.route("/politique")
 def politique():
     return render_template("politique.html", page="politique")
+
 
 @app.route("/nouveautes")
 def nouveautes():
@@ -128,9 +144,11 @@ def nouveautes():
         db.session.commit()
     return render_template("nouveautes.html", page="nouveautes", items=items)
 
+
 @app.route("/a-propos")
 def a_propos():
     return render_template("a_propos.html", page="a_propos")
+
 
 @app.route("/contact", methods=["GET","POST"])
 def contact():
@@ -145,6 +163,7 @@ def contact():
         flash("Message envoyé. Merci !", "success")
         return redirect(url_for("contact"))
     return render_template("contact.html", page="contact")
+
 
 # --- Auth utilisateur ---
 @app.route("/signup", methods=["GET","POST"])
@@ -216,13 +235,14 @@ def signup():
     # ✅ Si GET, on renvoie toujours une page
     return render_template("signup.html", page="services")
 
+
 @app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
         identifier = request.form.get("identifier","").strip()
         password = request.form.get("password","").strip()
         if not identifier or not password:
-            flash("Veuillez renseigner email/username et mot de passe.", "danger")
+            flash("Veuillez renseigner votre adresse email/username et mot de passe.", "danger")
             return redirect(url_for("login"))
         user = User.query.filter((User.email==identifier.lower()) | (User.username==identifier.upper())).first()
         if user and check_password_hash(user.password_hash, password):
@@ -234,26 +254,24 @@ def login():
         flash("Identifiants invalides.", "danger")
     return render_template("login.html", page="services")
 
+
 @app.route("/forgot", methods=["POST"])
 def forgot():
     identifier = request.form.get("identifier","").strip()
     if not identifier:
-        flash("Veuillez saisir d’abord votre email ou username.", "danger")
+        flash("Veuillez saisir d’abord votre adresse email ou username.", "danger")
         return redirect(url_for("login"))
     flash("Votre demande de récupération est envoyée, nous vous contacterons incessamment !", "success")
     db.session.add(Notification(username=identifier.upper(), statut="Demande récupération (email/username + mot de passe oublié)", created_at=now_utc()))
     db.session.commit()
     return redirect(url_for("login"))
 
+
 @app.route("/logout")
 def logout():
-    uid = session.get("user_id")
-    if uid:
-        user = User.query.get(uid)
-        if user:
-            log_status(user.username, "s’est déconnecté")
     session.clear()
     return redirect(url_for("index"))
+
 
 # --- Dashboard utilisateur ---
 @app.route("/dashboard")
@@ -272,6 +290,7 @@ def dashboard():
     read_ids = {nl.nouveaute_id for nl in NouveauteLue.query.filter_by(user_id=user.id).all()}
     unread_count = len(set(all_news_ids) - read_ids)
     return render_template("dashboard.html", user=user, notifs=notifs, unread_count=unread_count)
+
 
 @app.route("/dashboard/releve.pdf", endpoint="download_releve")
 def download_releve_pdf():
@@ -348,6 +367,7 @@ def download_releve_pdf():
                      as_attachment=True,
                      download_name=f"releve_{user.numero_compte}.pdf")
 
+
 # --- Admin Auth ---
 @app.route("/admin/login", methods=["GET","POST"])
 def admin_login():
@@ -362,6 +382,7 @@ def admin_login():
             return redirect(url_for("admin_panel"))
         flash("Identifiants invalides.", "danger")
     return render_template("admin.html", login_only=True)
+
 
 @app.route("/admin_director/login", methods=["GET","POST"])
 def admin_director_login():
@@ -531,9 +552,6 @@ if __name__ == "__main__":
             # Erreur de connexion (ex: psycopg2.OperationalError si Postgres indisponible)
             print("‼️ Impossible de créer les tables :")
             print(str(e))
-            print("\nAstuce: si vous utilisez PostgreSQL, vérifiez que le service tourne et que la variable d'environnement DATABASE_URL est bien définie.")
-            print("Exemple (Linux/macOS): export DATABASE_URL='postgresql+psycopg2://user:pass@localhost:5432/dbname'")
-            print("Exemple (Windows PowerShell): $env:DATABASE_URL = 'postgresql+psycopg2://user:pass@localhost:5432/dbname'")
             raise
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=app.config.get("DEBUG", True))
