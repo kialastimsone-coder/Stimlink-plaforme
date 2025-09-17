@@ -384,6 +384,8 @@ body.accueil .container {
   h2{font-size:18px}
   h3{font-size:15px}
 
+  .btn, .btn secondary{font-size:13px}
+
   /* Logo réduit */
   .navbar .brand img {
     max-height: 40px;
@@ -397,7 +399,7 @@ body.accueil .container {
     font-size: 0.85rem;
   }
 
-  .navbar .flex .btn {
+  .navbar .flex {
     width: 100%;
     font-size: 0.85rem;
     padding: 8px 10px;
