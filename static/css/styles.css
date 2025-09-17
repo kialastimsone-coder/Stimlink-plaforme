@@ -328,3 +328,86 @@ body.accueil .container {
   from { opacity: 0; transform: scale(0.8); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+/* Toggle caché en desktop */
+.toggle-menu {
+  display: none;
+}
+
+/* --- Tablette & Mobile --- */
+@media (max-width: 1024px) {
+.nav-links,
+  .navbar .flex {
+    display: none;
+    flex-direction: column !important; /* ← force l'affichage en vertical */
+    align-items: flex-start; /* ← colle les éléments à gauche */
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Quand toggle actif → afficher */
+  .navbar.active .nav-links,
+  .navbar.active .flex {
+    display: flex !important; /* ← force flex */
+  }
+
+  /* Liens en bloc */
+  .nav-links a {
+    display: block;
+    width: 100%; /* occupe toute la largeur */
+    font-size: 0.95rem;
+    padding: 8px 0;
+  }
+
+  /* Boutons pleine largeur */
+  .navbar.active .flex {
+    display: inline-block;
+    width: 100% !important; /* ← même taille, toute largeur */
+  }
+
+
+  /* Toggle visible */
+  .toggle-menu {
+    display: block;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  p{font-size:12px}
+  h1{font-size:22px}
+  h2{font-size:18px}
+  h3{font-size:15px}
+
+  /* Logo réduit */
+  .navbar .brand img {
+    max-height: 40px;
+    width: auto;
+  }
+}
+
+/* --- Mobile --- */
+@media (max-width: 600px) {
+  .nav-links a {
+    font-size: 0.85rem;
+  }
+
+  .navbar .flex .btn {
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .navbar .brand img {
+    max-height: 32px;
+  }
+
+  .toggle-menu {
+    font-size: 1.5rem;
+  }
+}
