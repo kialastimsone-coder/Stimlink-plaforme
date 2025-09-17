@@ -77,7 +77,7 @@ def ensure_monthly_fee(user: User):
 
     if should_charge:
         if Decimal(user.solde) > 0:
-            fee = (Decimal(user.solde) * Decimal("0.05")).quantize(Decimal("0.01"))
+            fee = (Decimal(user.solde) * Decimal("0.02")).quantize(Decimal("0.01"))
             user.solde = (Decimal(user.solde) - fee).quantize(Decimal("0.01"))
             t = Transaction(user_id=user.id, type="frais de compte", montant=-fee, created_at=now_utc())
             db.session.add(t)
