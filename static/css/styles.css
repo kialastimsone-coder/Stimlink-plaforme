@@ -336,47 +336,46 @@ body.accueil .container {
 
 /* --- Tablette & Mobile --- */
 @media (max-width: 1024px) {
-.nav-links,
-  .navbar .flex {
-    display: none;
-    flex-direction: column !important; /* ← force l'affichage en vertical */
-    align-items: flex-start; /* ← colle les éléments à gauche */
-    gap: 10px;
-    width: 100%;
-    text-align: left;
-  }
-
-  /* Quand toggle actif → afficher */
-  .navbar.active .nav-links,
-  .navbar.active .flex {
-    display: flex !important; /* ← force flex */
-  }
-
-  /* Liens en bloc */
-  .nav-links a {
-    display: block;
-    width: 100%; /* occupe toute la largeur */
-    font-size: 0.95rem;
-    padding: 8px 0;
-  }
-
-  /* Boutons pleine largeur */
-  .navbar.active .flex {
-    display: inline-block;
-    width: 100% !important; /* ← même taille, toute largeur */
-  }
-
-
-  /* Toggle visible */
-  .toggle-menu {
+.toggle-menu {
     display: block;
     font-size: 1.8rem;
     background: none;
     border: none;
     cursor: pointer;
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
+    margin-left: auto;
+  }
+
+  /* Menu caché par défaut */
+  .nav-links,
+  .navbar .flex {
+    max-height: 0;            /* invisible */
+    overflow: hidden;
+    flex-direction: column;   /* empile verticalement */
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    transition: max-height 0.9s ease; /* animation */
+  }
+
+  /* Menu visible quand toggle actif */
+  .navbar.active .nav-links,
+  .navbar.active .flex {
+    max-height: 500px; /* assez grand pour contenir tous les éléments */
+  }
+
+  /* Liens en bloc */
+  .nav-links a {
+    display: block;
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 8px 0;
+  }
+
+  /* Boutons gardent leur forme */
+  .navbar.active .flex .btn,
+  .navbar.active .flex .btn.secondary {
+    display: inline-block;
   }
 
   p{font-size:12px}
@@ -386,30 +385,56 @@ body.accueil .container {
 
   .btn, .btn secondary{font-size:13px}
 
-  /* Logo réduit */
-  .navbar .brand img {
-    max-height: 40px;
-    width: auto;
-  }
+    /* --- Messages de contact --- */
+  .table-contacts th:nth-child(1), .table-contacts td:nth-child(1) {
+     width: 15%;
+    }
+  .table-contacts th:nth-child(2), .table-contacts td:nth-child(2) {
+     width: 15%;
+    }
+  .table-contacts th:nth-child(3), .table-contacts td:nth-child(3) {
+     width: 10%;
+     text-align: center;
+    }
+  .table-contacts th:nth-child(4), .table-contacts td:nth-child(4) {
+     width: 20%;
+    }
+  .table-contacts th:nth-child(5), .table-contacts td:nth-child(5) {
+     width: 10%;
+     text-align: center;
+     white-space: nowrap;
+    }
+
+  .table-logs th, .table-logs td,
+  .table-contacts th, .table-contacts td {
+     font-size: 10px;
+}
+  .table-logs th, .table-logs td,
+  .table-contacts th, .table-contacts td {
+      font-size: 10px;
+    }
+/* --- Table Notifications --- */
+  .table-notifs {
+      margin-top: 8px;
+    }
+
+  .table-notifs th,
+  .table-notifs td {
+      font-size: 10px;
+    }
+/* Colonne Statut (large, texte long possible) */
+  .table-notifs th:nth-child(1),
+  .table-notifs td:nth-child(1) {
+      width: 70%;
+      text-align: left;
 }
 
-/* --- Mobile --- */
-@media (max-width: 600px) {
-  .nav-links a {
-    font-size: 0.85rem;
-  }
+/* Colonne Date-heure (fixe, centrée, sans retour à la ligne) */
+  .table-notifs th:nth-child(2),
+  .table-notifs td:nth-child(2) {
+      width: 30%;
+      text-align: center;
+      white-space: nowrap;
+    }
 
-  .navbar .flex {
-    width: 100%;
-    font-size: 0.85rem;
-    padding: 8px 10px;
-  }
-
-  .navbar .brand img {
-    max-height: 32px;
-  }
-
-  .toggle-menu {
-    font-size: 1.5rem;
-  }
 }
